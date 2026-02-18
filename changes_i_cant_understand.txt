@@ -1,0 +1,16 @@
+One-Hot Encoding (train.py:20-22)
+
+X_train = pd.get_dummies(X_train, ...)
+X_val   = pd.get_dummies(X_val, ...).reindex(columns=X_train.columns, fill_value=0)
+This is a subtle leakage risk. get_dummies on train creates columns based on categories seen in training. You then reindex val/test to match — this is correct.
+If you had done get_dummies on the full dataset before splitting, the column set would include categories that only appear in the test set. The model would have a column for a category it should never have known about during training.
+Effect: The model's feature space is shaped by unseen data, giving it structural hints about the test distribution.
+The Core Principle
+Think of it like an exam:
+
+Step	Correct (no leakage)	Wrong (leakage)
+Scaling	Learn mean/std from train, apply to all	Learn mean/std from all data
+SMOTE	Generate synthetic samples from train only	Generate from all data, then split
+Encoding	Fit categories on train, align others	Encode all data, then split
+Your pipeline does it right — fit on train, transform val/test. The key rule is: anything that "learns" from data (fit, fit_transform, fit_resample) must only see training data. The val/test sets should only be transformed, never fitted on.
+

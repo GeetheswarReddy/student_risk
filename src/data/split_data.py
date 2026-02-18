@@ -1,8 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import StandardScaler
-from imblearn.pipeline import Pipeline as ImbPipeline
+from imblearn.over_sampling import SMOTE
 
 def split_data(data, test_size=0.3, random_state=42):
     try:
@@ -17,15 +16,13 @@ def split_data(data, test_size=0.3, random_state=42):
         return None, None, None, None
     
 def fit_re(X_train, y_train):
-    pipeline=ImbPipeline([
-        ("scaler", StandardScaler()),
-        ("smote", SMOTE(random_state=42))
-    ])
-    X_train_resampled, y_train_resampled = pipeline.fit_resample(X_train, y_train)
-    return X_train_resampled, y_train_resampled
-
-def transform_re(X_val, X_test):
     scaler = StandardScaler()
-    X_val_scaled = scaler.fit_transform(X_val)
+    X_train_scaled = scaler.fit_transform(X_train)
+    smote = SMOTE(random_state=42)
+    X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
+    return X_train_resampled, y_train_resampled, scaler
+
+def transform_re(X_val, X_test, scaler):
+    X_val_scaled = scaler.transform(X_val)
     X_test_scaled = scaler.transform(X_test)
     return X_val_scaled, X_test_scaled

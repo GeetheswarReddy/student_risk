@@ -12,7 +12,5 @@ def load_data(file_path):
         print(f"Error loading data: {e}")
         return None
 
-if __name__=="__main__":
-    data=load_data(file_path)
 
 
