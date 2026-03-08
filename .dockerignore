@@ -1,0 +1,30 @@
+# Git
+.git/
+.gitignore
+
+# Virtual environment
+.renv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Keys & secrets
+*.pem
+
+# Logs
+*.log
+
+# Dev/notebook files
+eda.ipynb
+.ipynb_checkpoints/
+changes_i_cant_understand.txt

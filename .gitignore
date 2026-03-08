@@ -1,0 +1,25 @@
+# Virtual environment
+.renv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# macOS
+.DS_Store
+
+# Keys & secrets
+*.pem
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
